@@ -6,6 +6,8 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import Tooltip from '@material-ui/core/Tooltip';
 
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -28,6 +30,10 @@ class App extends Component {
             <Typography variant="h6" style={{ flexGrow: 1 }}>
               The Pizza Task
             </Typography>
+            <ButtonGroup variant="contained" color="secondary" aria-label="outlined primary button group" id="currency">
+              <Button> EURO </Button>
+              <Button> USD </Button>
+            </ButtonGroup>
             <Tooltip title="Cart" aria-label="cart">
               <IconButton color="inherit" aria-label="cart">
                 <ShoppingCartIcon />
@@ -42,7 +48,7 @@ class App extends Component {
         </AppBar>
         <div className="box">
           <Button
-            variant="contained" color="primary" size="large"
+            variant="contained" color="secondary" size="large"
             id="order-now">Order now</Button>
         </div>
         <a href="http://www.freepik.com" id="bg-owner-info">Background designed by Freepik</a>
