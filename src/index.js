@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 import registerServiceWorker from './registerServiceWorker'
+import App from './App'
+import './index.css'
 
 class Root extends Component {
   render() {
     return (
-      <div>
-        The Pizza Task
-      </div>
+      <App />
     )
   }
 }
