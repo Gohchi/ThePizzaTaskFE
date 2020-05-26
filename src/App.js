@@ -7,28 +7,14 @@ import {
   Link
 } from 'react-router-dom';
 
-// import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
-// import DeleteIcon from '@material-ui/icons/Delete';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import Tooltip from '@material-ui/core/Tooltip';
-
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
-import { Button } from '@material-ui/core';
-import Products from './components/Products'
+import Button from '@material-ui/core/Button';
+import Products from './components/Products';
+import Toolbar from './components/Toolbar';
 import './App.css';
-import { setCurrency } from './actions';
 
 const mapStateToProps = (state) => {
   return {
     cart: state.cart,
-    cartTotal: Object.values(state.cart).reduce((t, v) => v + t, 0),
     currency: state.currency
   }
 }
@@ -54,44 +40,11 @@ class App extends Component {
   render() {
     // console.log(this.props.cart);
 
-    const handleCurrency = code => {
-      return () => {
-        this.props.setCurrency(code);
-      }
-    }
-    const getVariant = code => {
-      return code===this.props.currency.code ? undefined : "outlined";
-    }
     const { pizzas } = this.state;
     return (
       <Router>
         <div className="main">
-          <AppBar>
-            <Toolbar>
-              <Typography variant="h6" style={{ flexGrow: 1 }}>
-                <Link to="/" className="no-link">
-                  The Pizza Task
-                </Link>
-              </Typography>
-              <ButtonGroup variant="contained" aria-label="outlined primary button group" id="currency">
-                <Button variant={getVariant('EUR')} onClick={handleCurrency('EUR')}> EURO </Button>
-                <Button variant={getVariant('USD')} onClick={handleCurrency('USD')}> USD </Button>
-              </ButtonGroup>
-              <Tooltip title="Cart" aria-label="cart">
-                
-                  <IconButton color="inherit" aria-label="cart">
-                    <Badge badgeContent={this.props.cartTotal} color="secondary">
-                        <ShoppingCartIcon />
-                    </Badge>
-                  </IconButton>
-              </Tooltip>
-              <Tooltip title="Orders" aria-label="orders">
-                <IconButton color="inherit" aria-label="orders">
-                  <ListAltIcon />
-                </IconButton>
-              </Tooltip>
-            </Toolbar>
-          </AppBar>
+          <Toolbar />
           <div className="box">
             <Switch>
               <Route path="/cart">
@@ -122,4 +75,4 @@ class App extends Component {
   }
 }
 
-export default connect(mapStateToProps, { setCurrency })(App);
+export default connect(mapStateToProps)(App);
