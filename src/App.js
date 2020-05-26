@@ -9,6 +9,7 @@ import {
 
 import Products from './components/Products';
 import Confirm from './components/Confirm';
+import ContactInfo from './components/ContactInfo';
 
 import Button from '@material-ui/core/Button';
 import Toolbar from './components/Toolbar';
@@ -46,6 +47,9 @@ class App extends Component {
               </Route>
               <Route path="/orders">
                 <div style={{ margin: '100px' }}>orders</div>
+              </Route>
+              <Route path="/contactinfo">
+                <ContactInfo />
               </Route>
               <Route path="/confirm">
                 <Confirm />

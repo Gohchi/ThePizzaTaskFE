@@ -15,7 +15,8 @@ const mapStateToProps = (state) => {
     cart: state.cart,
     cartTotal: calculateTotalCount(state.cart),
     currency: state.currency,
-    pizzas: state.pizzas
+    pizzas: state.pizzas,
+    contact: state.contact
   }
 }
 
@@ -34,9 +35,26 @@ const useStyles = makeStyles((theme) => ({
     // height: theme.spacing(6),
     display: 'flex',
     margin: '10px 0',
-    padding: '5px'
+    padding: '5px 15px'
     // paddingTop: '15px',
     // fontSize: '22px'
+  },
+  itemAdded: {
+    display: 'flex',
+    margin: '10px 0',
+    padding: '15px'
+  },
+  itemTotal: {
+    fontSize: '28px'
+  },
+  contactInfo: {
+    margin: '10px 0',
+    padding: '15px'
+  },
+  contactInfoItem: {
+    display: 'flex',
+    margin: '10px 0',
+    padding: '5px 15px'
   }
 }));
 
@@ -44,7 +62,9 @@ export default connect(mapStateToProps)(( props ) => {
   const classes = useStyles();
 
   const { base, symbol } = props.currency;
+  const { contact } = props;
 
+  console.log(contact);
   // const calculatePrice = price => {
   //   return `${base * price} ${symbol}`;
   // }
@@ -58,27 +78,72 @@ export default connect(mapStateToProps)(( props ) => {
     return Object.assign({ key, amount }, pizza, { name: 'Pizza: ' + pizza.name });
   })
 
-  items.push({ key: 'd', name: 'Delivery fee', amount: 1, price: 3 });
+  items.push({ key: 'd', name: 'Shipping fee', amount: 1, price: 3 });
+
+  const total = items.reduce((t, item) => t + item.price * item.amount, 0);
+  items.push({ key: 't', name: 'Total', amount: 1, price: total });
 
   return (
     <Container maxWidth="sm" className={classes.root}>
       {items.map(item => {
+        const isPizza = item.key !== 't' && item.key !== 'd';
         return (
-          <Paper elevation={3} className={classes.item} key={item.key}>
-            <Typography style={{ flexGrow: 1 }}>
-              {item.name} ({item.amount})
+          <Paper elevation={3} className={isPizza ? classes.item : classes.itemAdded} key={item.key}>
+            <Typography style={{ flexGrow: 1 }} className={item.key === 't' ? classes.itemTotal : undefined}>
+              {item.name}{isPizza ? ` (${item.amount})` : ''}
             </Typography>
-            <Typography>
+            <Typography className={item.key === 't' ? classes.itemTotal : undefined}>
               {calculatePriceByAmount(item.price, item.amount)}
             </Typography>
           </Paper>
         ) 
       })}
+      {props.contact.valid
+        ? <Paper elevation={3} className={classes.contactInfo}>
+        <Typography variant="h5" component="h5">
+          Contact Info
+        </Typography>
+        <Paper elevation={1} className={classes.contactInfoItem}>
+          <Typography style={{ flexGrow: 1 }}>
+            Full name:
+          </Typography>
+          <Typography>
+            {contact.fullName}
+          </Typography>
+        </Paper>
+        <Paper elevation={1} className={classes.contactInfoItem}>
+          <Typography style={{ flexGrow: 1 }}>
+            Phone number:
+          </Typography>
+          <Typography>
+            {contact.phone}
+          </Typography>
+        </Paper>
+        <Paper elevation={1} className={classes.contactInfoItem}>
+          <Typography style={{ flexGrow: 1 }}>
+            Address:
+          </Typography>
+          <Typography>
+            {contact.address}
+          </Typography>
+        </Paper>
+        <Paper elevation={1} className={classes.contactInfoItem}>
+          <Typography style={{ flexGrow: 1 }}>
+            Apartment:
+          </Typography>
+          <Typography>
+            {contact.apartment}
+          </Typography>
+        </Paper>
+      </Paper>
+        : undefined}
       <Button
         variant="contained" color="secondary" size="large"
         id="confirm-button"
       >
-        <Link to="/confirmed" className="no-link">Confirm</Link>
+        {contact.valid
+        ? <Link to="/confirmed" className="no-link">Confirm</Link>
+        : <Link to="/contactinfo" className="no-link">Go to complete contact info</Link>}
       </Button>
     </Container>
   );
