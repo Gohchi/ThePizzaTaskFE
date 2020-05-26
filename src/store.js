@@ -2,10 +2,12 @@ import { createStore, combineReducers } from 'redux';
 
 import cart from './reducers/cart'
 import currency from './reducers/currency'
+import pizzas from './reducers/pizzas'
 
 const reducer = combineReducers({
   cart,
-  currency
+  currency,
+  pizzas
 });
 
 const store = createStore(reducer);

@@ -18,11 +18,11 @@ import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 
 import { setCurrency } from '../../actions';
-
+import { calculateTotalCount } from '../../tools';
 
 const mapStateToProps = (state) => {
   return {
-    cartTotal: Object.values(state.cart).reduce((t, v) => v + t, 0),
+    cartTotal: calculateTotalCount(state.cart),
     currency: state.currency
   }
 }

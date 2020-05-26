@@ -1,6 +1,9 @@
 import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART, CLEAR_FROM_CART } from '../actions'
 
-const cart = (state = {}, action) => {
+// const initialState = {};
+const initialState = { 1: 1, 2: 2, 3: 1 };
+
+export default (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case ADD_TO_CART:
@@ -21,5 +24,3 @@ const cart = (state = {}, action) => {
       return state
   }
 }
-
-export default cart

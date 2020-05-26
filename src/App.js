@@ -7,40 +7,34 @@ import {
   Link
 } from 'react-router-dom';
 
-import Button from '@material-ui/core/Button';
 import Products from './components/Products';
+import Confirm from './components/Confirm';
+
+import Button from '@material-ui/core/Button';
 import Toolbar from './components/Toolbar';
+
 import './App.css';
+
+import { calculateTotalCount } from './tools';
 
 const mapStateToProps = (state) => {
   return {
     cart: state.cart,
-    currency: state.currency
+    cartTotal: calculateTotalCount(state.cart),
+    currency: state.currency,
+    pizzas: state.pizzas
   }
 }
 
-
 class App extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      pizzas: [
-        { id: 1, name: 'Salami', price: 5, description: 'With tomatoes and olives.', photo: 'p1' },
-        { id: 2, name: 'Margherita', price: 5, description: 'Neapolitan pizza, made with tomatoes, fresh basil and olive oil.', photo: 'p2' },
-        { id: 3, name: 'Pepperoni', price: 5, description: 'A great crust, gooey cheese, and tons of pepperoni.', photo: 'p3' },
-        { id: 4, name: 'Sausages', price: 5, description: 'Sausages', photo: 'p4' },
-        { id: 5, name: 'Mushrooms', price: 5, description: 'Mushrooms', photo: 'p5' },
-        { id: 6, name: 'Chicken', price: 5, description: 'Chicken mushroom bell peppers cheese', photo: 'p6' },
-        { id: 7, name: 'Green', price: 5, description: 'Sausages greens and parmesan', photo: 'p7' },
-        { id: 8, name: 'Shrimp', price: 5, description: 'With shrimp, salmon and olives', photo: 'p8' },
-      ]
-    }
-  }
+  // constructor(props){
+  //   super(props)
+  // }
   
   render() {
-    // console.log(this.props.cart);
+    // console.log(this.props);
 
-    const { pizzas } = this.state;
+    const { pizzas } = this.props;
     return (
       <Router>
         <div className="main">
@@ -53,7 +47,15 @@ class App extends Component {
               <Route path="/orders">
                 <div style={{ margin: '100px' }}>orders</div>
               </Route>
+              <Route path="/confirm">
+                <Confirm />
+              </Route>
               <Route path="/products">
+                {this.props.cartTotal > 0 ? 
+                  <Link to="/confirm" className="no-link">
+                    <Button variant="contained" color="secondary" size="large" id="to-confirm">Proceed</Button>
+                  </Link>
+                  : undefined}
                 {pizzas.map((o, i) => 
                   <Products key={i} {...o} amount={this.props.cart[o.id]} />
                 )}
