@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, useHistory} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 export default connect(mapStateToProps, { addOrder })(( props ) => {
   const classes = useStyles();
   let history = useHistory();
-  
+
   const { base, symbol } = props.currency;
   const { contact } = props;
 

@@ -1,4 +1,6 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+
+import { mainMiddleware } from './middleware'
 
 import cart from './reducers/cart'
 import currency from './reducers/currency'
@@ -14,6 +16,12 @@ const reducer = combineReducers({
   orders
 });
 
-const store = createStore(reducer);
+const customMiddleWare = store => next => action => {
+  console.log(action);
+  next(action);
+  mainMiddleware(store, action);
+}
+
+const store = createStore(reducer, undefined, applyMiddleware(customMiddleWare));
 
 export default store;

@@ -30,8 +30,7 @@ export default () => {
             You order is ready!
           </Typography>
           <Typography>
-            Soon we'll contact to you.
-            Prepare your table!
+            We will contact you soon. Prepare your table!
           </Typography>
         
           <Link to="/products" className="no-link">
