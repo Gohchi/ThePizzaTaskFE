@@ -23,11 +23,13 @@ import Badge from '@material-ui/core/Badge';
 import { Button } from '@material-ui/core';
 import Products from './components/Products'
 import './App.css';
+import { setCurrency } from './actions';
 
 const mapStateToProps = (state) => {
   return {
     cart: state.cart,
-    cartTotal: Object.values(state.cart).reduce((t, v) => v + t, 0)
+    cartTotal: Object.values(state.cart).reduce((t, v) => v + t, 0),
+    currency: state.currency
   }
 }
 
@@ -37,20 +39,29 @@ class App extends Component {
     super(props)
     this.state = {
       pizzas: [
-        { id: 1, name: 'Salami', description: 'With tomatoes and olives.', photo: 'p1' },
-        { id: 2, name: 'Margherita', description: 'Neapolitan pizza, made with tomatoes, fresh basil and olive oil.', photo: 'p2' },
-        { id: 3, name: 'Pepperoni', description: 'A great crust, gooey cheese, and tons of pepperoni.', photo: 'p3' },
-        { id: 4, name: 'Sausages', description: 'Sausages', photo: 'p4' },
-        { id: 5, name: 'Mushrooms', description: 'Mushrooms', photo: 'p5' },
-        { id: 6, name: 'Chicken', description: 'Chicken mushroom bell peppers cheese', photo: 'p6' },
-        { id: 7, name: 'Green', description: 'Sausages greens and parmesan', photo: 'p7' },
-        { id: 8, name: 'Shrimp', description: 'With shrimp, salmon and olives', photo: 'p8' },
+        { id: 1, name: 'Salami', price: 5, description: 'With tomatoes and olives.', photo: 'p1' },
+        { id: 2, name: 'Margherita', price: 5, description: 'Neapolitan pizza, made with tomatoes, fresh basil and olive oil.', photo: 'p2' },
+        { id: 3, name: 'Pepperoni', price: 5, description: 'A great crust, gooey cheese, and tons of pepperoni.', photo: 'p3' },
+        { id: 4, name: 'Sausages', price: 5, description: 'Sausages', photo: 'p4' },
+        { id: 5, name: 'Mushrooms', price: 5, description: 'Mushrooms', photo: 'p5' },
+        { id: 6, name: 'Chicken', price: 5, description: 'Chicken mushroom bell peppers cheese', photo: 'p6' },
+        { id: 7, name: 'Green', price: 5, description: 'Sausages greens and parmesan', photo: 'p7' },
+        { id: 8, name: 'Shrimp', price: 5, description: 'With shrimp, salmon and olives', photo: 'p8' },
       ]
     }
   }
   
   render() {
     // console.log(this.props.cart);
+
+    const handleCurrency = code => {
+      return () => {
+        this.props.setCurrency(code);
+      }
+    }
+    const getVariant = code => {
+      return code===this.props.currency.code ? undefined : "outlined";
+    }
     const { pizzas } = this.state;
     return (
       <Router>
@@ -62,9 +73,9 @@ class App extends Component {
                   The Pizza Task
                 </Link>
               </Typography>
-              <ButtonGroup variant="contained" color="secondary" aria-label="outlined primary button group" id="currency">
-                <Button> EURO </Button>
-                <Button> USD </Button>
+              <ButtonGroup variant="contained" aria-label="outlined primary button group" id="currency">
+                <Button variant={getVariant('EUR')} onClick={handleCurrency('EUR')}> EURO </Button>
+                <Button variant={getVariant('USD')} onClick={handleCurrency('USD')}> USD </Button>
               </ButtonGroup>
               <Tooltip title="Cart" aria-label="cart">
                 
@@ -111,4 +122,4 @@ class App extends Component {
   }
 }
 
-export default connect(mapStateToProps, { })(App);
+export default connect(mapStateToProps, { setCurrency })(App);

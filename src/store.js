@@ -1,9 +1,11 @@
 import { createStore, combineReducers } from 'redux';
 
 import cart from './reducers/cart'
+import currency from './reducers/currency'
 
 const reducer = combineReducers({
-  cart
+  cart,
+  currency
 });
 
 const store = createStore(reducer);

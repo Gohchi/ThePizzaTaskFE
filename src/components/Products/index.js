@@ -12,7 +12,7 @@ import AddCircle from '@material-ui/icons/AddCircle';
 import RemoveCircle from '@material-ui/icons/RemoveCircle';
 import Chip from '@material-ui/core/Chip';
 
-import { addToCart, removeFromCart, clearFromCart} from '../../actions';
+import { addToCart, removeFromCart, clearFromCart } from '../../actions';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,17 +36,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-// const mapStateToProps = (state) => {
-//   return {
-//     cart: state.cart
-//   }
-// }
-export default connect( null, { addToCart, removeFromCart, clearFromCart })(function ( props ) {
-  const { id, name, description, photo, amount } = props;
-  // console.log(props.cart);
+const mapStateToProps = (state) => {
+  return {
+    currency: state.currency
+  }
+}
+
+export default connect( mapStateToProps, { addToCart, removeFromCart, clearFromCart })(function ( props ) {
+  const { id, name, price, description, photo, amount } = props;
+  const { base, symbol } = props.currency;
+
   // const url = require(`../../images/${photo}.jpg`);
   const urlSmall = require(`../../images/${photo}-small.jpg`);
   const classes = useStyles();
+
+  const calculatePrice = () => {
+    return `${base * price} ${symbol}`;
+  }
 
   const handleAdd = () => {
     props.addToCart(id);
@@ -61,6 +67,7 @@ export default connect( null, { addToCart, removeFromCart, clearFromCart })(func
     <Card className={classes.root}>
       <CardHeader
         title={name}
+        subheader={calculatePrice()}
       />
       <CardMedia
         className={classes.media}
