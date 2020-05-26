@@ -1,6 +1,6 @@
 import { SET_CURRENCY } from '../actions'
 
-const currencies = {
+export const currencies = {
   EUR: { code: 'EUR', base: 1, symbol: '€' },
   USD: { code: 'USD', base: 1.09, symbol: 'US$' }
 }

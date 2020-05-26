@@ -4,6 +4,7 @@ export const CLEAR_CART = 'CLEAR_CART'
 export const CLEAR_FROM_CART = 'CLEAR_FROM_CART'
 export const SET_CURRENCY = 'SET_CURRENCY'
 export const SAVE_CONTACT = 'SAVE_CONTACT'
+export const ADD_ORDER = 'ADD_ORDER'
 
 export const addToCart = (id) => {
   return {
@@ -43,5 +44,14 @@ export const setContact = (fullName, phone, address, apartment) => {
   return {
     type: SAVE_CONTACT,
     fullName, phone, address, apartment
+  }
+}
+
+
+export const addOrder = (items, currency) => {
+  return {
+    type: ADD_ORDER,
+    items,
+    currency,
   }
 }

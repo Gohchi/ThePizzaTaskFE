@@ -58,12 +58,12 @@ export default connect(mapStateToProps, { setContact })(( props ) => {
   // const validate = values => {
   //   const errors = {};
   //   if (!values.firstName) {
-  //     errors.firstName = 'Required';
+  //     errors.newFullName = 'Required';
   //   }
   //   if (!values.lastName) {
-  //     errors.lastName = 'Required';
+  //     errors.newPhone = 'Required';
   //   }
-  //   if (!values.email) {
+  //   if (!values.newAddress) {
   //     errors.email = 'Required';
   //   }
   //   return errors;

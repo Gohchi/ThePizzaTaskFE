@@ -10,6 +10,8 @@ import {
 import Products from './components/Products';
 import Confirm from './components/Confirm';
 import ContactInfo from './components/ContactInfo';
+import Orders from './components/Orders';
+import Confirmed from './components/Confirmed';
 
 import Button from '@material-ui/core/Button';
 import Toolbar from './components/Toolbar';
@@ -33,7 +35,6 @@ class App extends Component {
   // }
   
   render() {
-    // console.log(this.props);
 
     const { pizzas } = this.props;
     return (
@@ -42,11 +43,11 @@ class App extends Component {
           <Toolbar />
           <div className="box">
             <Switch>
-              <Route path="/cart">
-                <div style={{ margin: '100px' }}>cart</div>
+              <Route path="/confirmed">
+                <Confirmed />
               </Route>
               <Route path="/orders">
-                <div style={{ margin: '100px' }}>orders</div>
+                <Orders />
               </Route>
               <Route path="/contactinfo">
                 <ContactInfo />

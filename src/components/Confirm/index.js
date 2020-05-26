@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory} from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
 import { calculateTotalCount, roundNumber } from '../../tools';
+import { addOrder } from '../../actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -58,16 +59,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default connect(mapStateToProps)(( props ) => {
+export default connect(mapStateToProps, { addOrder })(( props ) => {
   const classes = useStyles();
-
+  let history = useHistory();
+  
   const { base, symbol } = props.currency;
   const { contact } = props;
 
-  console.log(contact);
-  // const calculatePrice = price => {
-  //   return `${base * price} ${symbol}`;
-  // }
+  const handleConfirm = () => {
+    props.addOrder(items, props.currency);
+    history.push('/confirmed');
+  }
+  
   const calculatePriceByAmount = ( price, amount ) => {
     return `${roundNumber(base * price * amount)} ${symbol}`;
   }
@@ -140,9 +143,10 @@ export default connect(mapStateToProps)(( props ) => {
       <Button
         variant="contained" color="secondary" size="large"
         id="confirm-button"
+        onClick={contact.valid ? handleConfirm : undefined}
       >
         {contact.valid
-        ? <Link to="/confirmed" className="no-link">Confirm</Link>
+        ? 'Confirm'
         : <Link to="/contactinfo" className="no-link">Go to complete contact info</Link>}
       </Button>
     </Container>

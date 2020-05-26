@@ -51,16 +51,20 @@ export default connect( mapStateToProps, { setCurrency })(function ( props ) {
           <Button variant={getVariant('USD')} onClick={handleCurrency('USD')}> USD </Button>
         </ButtonGroup>
         <Tooltip title="Cart" aria-label="cart">
+          <Link to="/confirm" className="no-link">
             <IconButton color="inherit" aria-label="cart">
               <Badge badgeContent={props.cartTotal} color="secondary">
                   <ShoppingCartIcon />
               </Badge>
             </IconButton>
+          </Link>
         </Tooltip>
         <Tooltip title="Orders" aria-label="orders">
-          <IconButton color="inherit" aria-label="orders">
-            <ListAltIcon />
-          </IconButton>
+          <Link to="/orders" className="no-link">
+            <IconButton color="inherit" aria-label="orders">
+              <ListAltIcon />
+            </IconButton>
+          </Link>
         </Tooltip>
       </Toolbar>
     </AppBar>
