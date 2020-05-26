@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -9,8 +10,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import AddCircle from '@material-ui/icons/AddCircle';
 import RemoveCircle from '@material-ui/icons/RemoveCircle';
-
 import Chip from '@material-ui/core/Chip';
+
+import { addToCart, removeFromCart, clearFromCart} from '../../actions';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,14 +36,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function ( props ) {
-  const { name, description, photo } = props;
+// const mapStateToProps = (state) => {
+//   return {
+//     cart: state.cart
+//   }
+// }
+export default connect( null, { addToCart, removeFromCart, clearFromCart })(function ( props ) {
+  const { id, name, description, photo, amount } = props;
+  // console.log(props.cart);
   // const url = require(`../../images/${photo}.jpg`);
   const urlSmall = require(`../../images/${photo}-small.jpg`);
   const classes = useStyles();
 
-  const handleDelete = () => {
-    console.info('You clicked the Chip.');
+  const handleAdd = () => {
+    props.addToCart(id);
+  }
+  const handleRemove = () => {
+    props.removeFromCart(id);
+  }
+  const handleClear = () => {
+    props.clearFromCart(id);
   };
   return (
     <Card className={classes.root}>
@@ -50,7 +65,7 @@ export default function ( props ) {
       <CardMedia
         className={classes.media}
         image={urlSmall}
-        title="Paella dish"
+        title={name}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
@@ -58,19 +73,19 @@ export default function ( props ) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" color="secondary">
+        <IconButton aria-label="add to favorites" color="secondary" onClick={handleAdd}>
           <AddCircle />
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton aria-label="share" onClick={handleRemove}>
           <RemoveCircle />
         </IconButton>
-        <Chip
-          label="1"
+        {amount ? <Chip
+          label={amount}
           className={classes.expand}
-          onDelete={handleDelete}
+          onDelete={handleClear}
           color="secondary"
-        />
+        /> : undefined}
       </CardActions>
     </Card>
   );
-}
+});

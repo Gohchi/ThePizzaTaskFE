@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,25 +24,33 @@ import { Button } from '@material-ui/core';
 import Products from './components/Products'
 import './App.css';
 
+const mapStateToProps = (state) => {
+  return {
+    cart: state.cart,
+    cartTotal: Object.values(state.cart).reduce((t, v) => v + t, 0)
+  }
+}
+
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
       pizzas: [
-        { name: 'Salami', description: 'With tomatoes and olives.', photo: 'p1' },
-        { name: 'Margherita', description: 'Neapolitan pizza, made with tomatoes, fresh basil and olive oil.', photo: 'p2' },
-        { name: 'Pepperoni', description: 'A great crust, gooey cheese, and tons of pepperoni.', photo: 'p3' },
-        { name: 'Sausages', description: 'Sausages', photo: 'p4' },
-        { name: 'Mushrooms', description: 'Mushrooms', photo: 'p5' },
-        { name: 'Chicken', description: 'Chicken mushroom bell peppers cheese', photo: 'p6' },
-        { name: 'Green', description: 'Sausages greens and parmesan', photo: 'p7' },
-        { name: 'Shrimp', description: 'With shrimp, salmon and olives', photo: 'p8' },
+        { id: 1, name: 'Salami', description: 'With tomatoes and olives.', photo: 'p1' },
+        { id: 2, name: 'Margherita', description: 'Neapolitan pizza, made with tomatoes, fresh basil and olive oil.', photo: 'p2' },
+        { id: 3, name: 'Pepperoni', description: 'A great crust, gooey cheese, and tons of pepperoni.', photo: 'p3' },
+        { id: 4, name: 'Sausages', description: 'Sausages', photo: 'p4' },
+        { id: 5, name: 'Mushrooms', description: 'Mushrooms', photo: 'p5' },
+        { id: 6, name: 'Chicken', description: 'Chicken mushroom bell peppers cheese', photo: 'p6' },
+        { id: 7, name: 'Green', description: 'Sausages greens and parmesan', photo: 'p7' },
+        { id: 8, name: 'Shrimp', description: 'With shrimp, salmon and olives', photo: 'p8' },
       ]
     }
   }
   
   render() {
+    // console.log(this.props.cart);
     const { pizzas } = this.state;
     return (
       <Router>
@@ -60,7 +69,7 @@ class App extends Component {
               <Tooltip title="Cart" aria-label="cart">
                 
                   <IconButton color="inherit" aria-label="cart">
-                    <Badge badgeContent={8} color="secondary">
+                    <Badge badgeContent={this.props.cartTotal} color="secondary">
                         <ShoppingCartIcon />
                     </Badge>
                   </IconButton>
@@ -82,7 +91,7 @@ class App extends Component {
               </Route>
               <Route path="/products">
                 {pizzas.map((o, i) => 
-                  <Products key={i} {...o} />
+                  <Products key={i} {...o} amount={this.props.cart[o.id]} />
                 )}
               </Route>
               <Route path="/">
@@ -102,4 +111,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps, { })(App);
